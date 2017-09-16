@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.map.mapper.OverLayMapper" >
+  <insert id="insert" parameterType="com.map.pojo.OverLay">
+  	insert into overlay(id,lng,lat,imgid) values(#{id,jdbcType=INTEGER},
+  	#{lng,jdbcType=DOUBLE},#{lat,jdbcType=DOUBLE},#{imageId,jdbcType=INTEGER})
+  </insert>
+  <delete id="deleteById" parameterType="java.lang.Integer">
+  	delete from overlay where id=#{id,jdbcType=INTEGER} 
+  </delete>
+  <update id="update" parameterType="com.map.pojo.OverLay">
+  	update overlay 
+  	set lng = #{lng},lat=#{lat},imgid=#{imageId};
+  	where id= #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectAll" resultType="com.map.pojo.OverLay">
+  	select id,lng,lat,imgid from overlay
+  </select>
+  <select id="selectById" resultType="com.map.pojo.OverLay">
+  	select id,lng,lat,imgid from overlay where id=#{id}
+  </select>
+  <select id="getTotal" resultType="Integer">
+  	select count(*) from overlay
+  </select>
+</mapper>

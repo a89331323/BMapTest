@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.map.mapper.ImageMapper" >
+  <resultMap type="com.map.pojo.Image" id="imageBean">
+  	<id column="imgid" property="id"/>
+  	<result column="imgname" property="name"/>
+  	<collection property="overLays" ofType="overlay">
+  		<id column="oid" property="id"/>
+  		<result column="lng" property="lng"/>
+  		<result column="lat" property="lat"/>
+  	</collection>
+  </resultMap>
+  
+  <insert id="insert" parameterType="com.map.pojo.Image">
+  	insert into image(id,name) 
+  	values(#{id,jdbcType=INTEGER},#{name,jdbcType=VARCHAR});
+  </insert>
+  <delete id="deleteById" parameterType="java.lang.Integer">
+  	delete from image where id=#{id,jdbcType=INTEGER}
+  	delete from overlay where imgid = #{id,jdbcType=INTEGER}
+  </delete>
+  <update id="update" parameterType="com.map.pojo.Image">
+  	update image 
+  	set name = #{name,jdbcType=VARCHAR}
+  	where id= #{id,jdbcType=INTEGER}
+  </update>
+  <select id="selectAll" resultType="com.map.pojo.Image">
+  	select id,name from image
+  </select>
+  <select id="selectById" parameterType="Integer" resultMap="imageBean">
+  	select i.*,o.*,i.id "imgid",i.name "imgname",o.id "oid" from image i left join overlay o on imgid=#{id} and imgid=o.imgid
+  </select>
+  <select id="getTotal" resultType="Integer">
+  	select count(*) from image;
+  </select>
+</mapper>
